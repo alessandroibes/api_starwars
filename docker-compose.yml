@@ -1,0 +1,62 @@
+services:
+  db:
+    image: mongo:latest
+    hostname: mongodb
+    environment:
+      - MONGO_INITDB_DATABASE=api_starwars
+    ports:
+      - 27017:27017
+
+  api_starwars:
+    container_name: api_starwars
+    restart: always
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    command: uwsgi --ini /app/wsgi.ini
+    volumes:
+      - ./src/starwars:/app/starwars
+      - ./src/dependencies:/app/dependencies
+      - ./src/wsgi.ini:/app/wsgi.ini
+    environment:
+      - MONGO_URI=mongodb://db:27017/api_starwars
+
+  test_api_starwars:
+    container_name: test_api_starwars
+    build:
+      context: ./src
+      dockerfile: tests.Dockerfile
+    depends_on:
+      - db
+    command: pytest
+    volumes:
+      - ./src/starwars:/app/starwars
+      - ./src/tests:/app/tests
+      - ./src/dependencies:/app/dependencies
+      - ./src/wsgi.ini:/app/wsgi.in
+      - ./src/pytest.ini:/app/pytest.ini
+    environment:
+      - MONGO_URI=mongodb://db:27017/api_starwars
+
+  nginx:
+    container_name: nginx
+    restart: always
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - api_starwars
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+    environment:
+      - NGINX_HOST=localhost
+      - NGINX_PORT=80
+
+volumes:
+  mongo_data:
