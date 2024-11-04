@@ -4,7 +4,7 @@ API REST (Crud) baseada no projeto https://swapi.dev/ com dois recursos: **Plane
 
 * O recurso **Planets** contém informações como: **id**, **name**, **climate**, **diameter**, **population** e **films**, além da data em que foi inserido (**created**) e a data da última alteração (**edited**).
 
-* O recurso ** Films** contém informações como: **id**, **release_date**, **director** e **planets**, além da data em que foi inserido (**created**) e a data da última alteração (**edited**).
+* O recurso **Films** contém informações como: **id**, **release_date**, **director** e **planets**, além da data em que foi inserido (**created**) e a data da última alteração (**edited**).
 
 # Resources
 
@@ -25,10 +25,10 @@ Um recurso **Planet** é uma grande massa, planeta ou planetoide no Universo Sta
 
 ### Endpoints
 
-* `POST` /api/planets -- Cadastra um novo planeta
-* `GET` /api/planets/{id} -- Retorna um planeta específico de acordo com o id passado
-* `PUT` /api/planets/{id} -- Atualiza um planeta específico
-* `DELETE` /api/planets/{id} -- Remove um planeta específico de acordo com o id passado
+* `POST /api/planets` -- Cadastra um novo planeta
+* `GET /api/planets/{id}` -- Retorna um planeta específico de acordo com o id passado
+* `PUT /api/planets/{id}` -- Atualiza um planeta específico
+* `DELETE /api/planets/{id}` -- Remove um planeta específico de acordo com o id passado
 
 # Executando o Projeto com Docker
 
@@ -80,7 +80,7 @@ docker-compose run --rm test_api_starwars pytest --cov
     * `flask run`
 
 * Verifique a saúde da aplicação
-    * /health-status -- Se a aplicação estiver rodando você verá:
+    * `GET /health-status` -- Se a aplicação estiver rodando você verá:
     ```json
     {
         "service": "API Star Wars HealthCheck",
@@ -104,7 +104,7 @@ flask drop_collections
 
 # Documentação
 
-A documentação, pode ser acessada através do endpoint `/api/films/docs/swagger` e `/api/planets/docs/swagger`:
+A documentação, pode ser acessada através dos endpoints `/api/films/docs/swagger` e `/api/planets/docs/swagger`:
 
 * http://localhost:5000/api/films/docs/swagger
 * http://localhost:5000/api/planets/docs/swagger
